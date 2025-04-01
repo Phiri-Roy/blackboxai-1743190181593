@@ -1,2 +1,1 @@
-# blackboxai-1743190181593
-Built by https://www.blackbox.ai
+A Project Management Tool built for projectss following the Kanban approach
