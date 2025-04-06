@@ -8,7 +8,8 @@ import {
   ListItemIcon, 
   ListItemText,
   Divider,
-  IconButton
+  IconButton,
+  Button
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -17,7 +18,7 @@ import {
   Logout as LogoutIcon
 } from '@mui/icons-material';
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, onLogout }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,8 +27,8 @@ const MainLayout = ({ children }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    navigate('/login');
+    onLogout();
+    navigate('/login', { state: { message: 'Successfully logged out!' } });
   };
 
   const menuItems = [
@@ -125,33 +126,23 @@ const MainLayout = ({ children }) => {
         <Divider sx={{ mx: 2 }} />
 
         {/* Logout Button */}
-        <ListItem
-          onClick={handleLogout}
-          disablePadding
-          sx={{
-            display: 'block',
-            p: 2,
-            cursor: 'pointer'
-          }}
-        >
-          <Box
+        <Box sx={{ p: 2 }}>
+          <Button
+            onClick={handleLogout}
+            fullWidth
+            startIcon={<LogoutIcon />}
             sx={{
               py: 1.5,
-              px: 2,
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: 1,
+              justifyContent: 'flex-start',
+              color: 'text.primary',
               '&:hover': {
                 bgcolor: 'action.hover',
               },
             }}
           >
-            <ListItemIcon sx={{ minWidth: 40 }}>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </Box>
-        </ListItem>
+            Logout
+          </Button>
+        </Box>
       </Box>
 
       {/* Main Content */}
