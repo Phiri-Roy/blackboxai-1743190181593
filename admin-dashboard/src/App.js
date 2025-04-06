@@ -14,12 +14,17 @@ function App() {
     setIsAuthenticated(authStatus);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    setIsAuthenticated(false);
+  };
+
   // Protected Route wrapper
   const ProtectedRoute = ({ children }) => {
     if (!isAuthenticated) {
       return <Navigate to="/login" replace />;
     }
-    return <MainLayout>{children}</MainLayout>;
+    return <MainLayout onLogout={handleLogout}>{children}</MainLayout>;
   };
 
   // Public Route wrapper (for login)
