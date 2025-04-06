@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   Paper,
   TextField,
   Button,
   Typography,
-  Container
+  Container,
+  Alert
 } from '@mui/material';
 
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message);
+      // Clear the message from navigation state
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +69,16 @@ const Login = ({ onLoginSuccess }) => {
           <Typography component="h1" variant="h5" gutterBottom>
             Admin Dashboard Login
           </Typography>
+          
+          {message && (
+            <Alert 
+              severity="success" 
+              sx={{ width: '100%', mb: 2 }}
+              onClose={() => setMessage('')}
+            >
+              {message}
+            </Alert>
+          )}
 
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>
             <TextField
